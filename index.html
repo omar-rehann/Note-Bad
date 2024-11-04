@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Note Bad</title>
+    <style>
+        body {
+            background-color: #ddd;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .container div {
+            margin: 0px 2px;
+        }
+        
+        .container div textarea {
+            border: none;
+            resize: none;
+            background-color: #ddd;
+            height: 150px;
+            width: 150px;
+            padding: 10px;
+            border-radius: 10px;
+            border: solid 1px red;
+        }
+        
+        .container div textarea:focus {
+            border: none;
+            outline: none;
+        }
+        
+        .container div.add {
+            width: 150px;
+            height: 150px;
+            background-color: #ddd;
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="add">Add Note</div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            let storagedata = JSON.parse(localStorage.getItem("Text")) || [];
+            if (storagedata.length) {
+                let section = document.querySelector(".container");
+
+                storagedata.forEach((dream) => {
+                    let oneelement = document.createElement("div");
+                    let element = document.createElement("textarea");
+                    element.placeholder = "Empty Message";
+                    element.value = dream;
+
+
+                    element.oninput = savedata;
+
+                    oneelement.appendChild(element);
+                    section.appendChild(oneelement);
+                });
+            }
+        };
+
+        let btn = document.querySelector(".add");
+        let section = document.querySelector(".container");
+
+        btn.onclick = function() {
+            let oneelement = document.createElement("div");
+            let element = document.createElement("textarea");
+
+            element.placeholder = "Empty Message";
+
+            element.oninput = savedata;
+
+            oneelement.appendChild(element);
+            section.appendChild(oneelement);
+
+            savedata();
+        };
+
+        function savedata() {
+            let alldata = [];
+            document.querySelectorAll("textarea").forEach((textarea) => {
+                alldata.push(textarea.value);
+            });
+            localStorage.setItem("Text", JSON.stringify(alldata));
+        }
+    </script>
+</body>
+
+</html>
